@@ -1,0 +1,3 @@
+set_1.ipynb ---> sobel 
+set4.ipynb ---> second code horse or human
+set3.ipynb ---> second one is SIFT
