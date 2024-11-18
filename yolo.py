@@ -46,3 +46,14 @@ test_image_path = r"C:\Users\dell\Desktop\yolo\images\train\download.jpg"
 
 # Run inference/prediction on a test image using the trained model
 results_pretrained = model.predict(test_image_path, save=True)
+
+
+
+# path: C:\Users\dell\Desktop\yolo
+# train: images/train
+# val: images/val
+
+# #Classes
+# names:
+#   0: person
+#   1: car
