@@ -3,6 +3,6 @@ set4.ipynb ---> second code horse or human
 set3.ipynb ---> second one is SIFT
 yolo.py ----->yolo
 set_3.ipynb ----> local binary patterns 
-set6_.ipynb ---> BCCD
+set_6.ipynb ---> BCCD
 set7.ipynb ----> set 6 canny and seed growing
 set5.ipynb ----> COCO dataset set 4 for end sem lab 
