@@ -1,40 +1,48 @@
-import cv2
-import numpy as np
-import matplotlib.pyplot as plt
+from ultralytics import YOLO
 
-image_path = 'image.jpg'
-image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+# Step 1: Load YOLOv8 pretrained model
+model = YOLO("yolov8n.pt")  # Replace with the correct path or model name if you have a custom model
+test_image_path = "/content/10815824_2997e03d76.jpg"
 
-if image is None:
-    print("Error: Image not found")
-    exit()
+# Run inference/prediction on a test image using the trained model
+results_pretrained = model.predict(test_image_path, save=True)
 
-smoothed_image = cv2.GaussianBlur(image, (5, 5), 0)
+# Display predictions (assuming results_pretrained is an object, not a list)
+results_pretrained[0].show()  # Display predictions for the first image in the result
 
-sobel_x = cv2.Sobel(smoothed_image, cv2.CV_64F, 1, 0, ksize=3)
-sobel_y = cv2.Sobel(smoothed_image, cv2.CV_64F, 0, 1, ksize=3)
 
-magnitude = cv2.magnitude(sobel_x, sobel_y)
-magnitude = cv2.convertScaleAbs(magnitude)
 
-plt.figure(figsize=(12, 6))
 
-plt.subplot(1, 3, 1)
-plt.imshow(sobel_x, cmap='gray')
-plt.title('Sobel X Gradient')
 
-plt.subplot(1, 3, 2)
-plt.imshow(sobel_y, cmap='gray')
-plt.title('Sobel Y Gradient')
+# --------------------------------------------------------------------------
+from ultralytics import YOLO
 
-plt.subplot(1, 3, 3)
-plt.imshow(magnitude, cmap='gray')
-plt.title('Edge Magnitude (Combined)')
+# Step 1: Load YOLOv8 pretrained model (replace with your desired model, e.g., 'yolov8n')
+model = YOLO('yolov8n.pt')  # Pretrained model
 
-plt.show()
+# Step 2: Specify the path to your dataset configuration file (in YOLO format)
+config_path = r"C:\Users\dell\Desktop\yolo\config.yaml"  # Update this with the path to your dataset.yaml
 
-cv2.imwrite('sobel_edge_magnitude.jpg', magnitude)
+# Step 3: Train the model with custom dataset and configurations
+model.train(
+    data=config_path,  # Path to your dataset configuration file
+    epochs=300,                   # Number of epochs to train
+    patience=300,                 # Patience for early stopping
+    batch=16,                     # Batch size
+    lr0=0.001,                    # Initial learning rate
+    augment=True                   # Enable data augmentations
+)
 
-cv2.imshow("Edge Magnitude", magnitude)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# Step 4: Validate the model to get performance metrics after training
+print("\n--- Running Validation ---")
+results = model.val()  # This will run the validation on your dataset
+
+# Step 5: Print validation results (mean Average Precision, precision, recall, etc.)
+print("\n--- Validation Results ---")
+print(results)  # Results contain metrics like mAP, precision, recall
+
+# Step 6: Test the model on a specific test image after training
+test_image_path = r"C:\Users\dell\Desktop\yolo\images\train\download.jpg"
+
+# Run inference/prediction on a test image using the trained model
+results_pretrained = model.predict(test_image_path, save=True)
